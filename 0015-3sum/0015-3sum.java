@@ -1,20 +1,46 @@
 class Solution {
-        public  List<List<Integer>> threeSum(int[] nums) {
-        Set<List<Integer>> res  = new HashSet<>();
-        if(nums.length==0) return new ArrayList<>(res);
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(nums.length < 3) return result;
         Arrays.sort(nums);
-        for(int i=0; i<nums.length-2;i++){
-            int j =i+1;
-           int  k = nums.length-1;
-            while(j<k){
-                int sum = nums[i]+nums[j]+nums[k];
-                if(sum==0)res.add(Arrays.asList(nums[i],nums[j++],nums[k--]));
-                else if (sum >0) k--;
-                else if (sum<0) j++;
+        int i = 0;
+        while (i < nums.length - 2) {
+            if (nums[i] > 0) break;
+            int j = i + 1;
+            int k = nums.length - 1;
+
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    while (j < k && nums[j] == nums[j+1]) {
+                        j++;
+                    }
+                    j ++;
+
+                    while (k > j && nums[k] == nums[k-1]) {
+                        k--;
+                    }
+                    k--;
+                } else if (sum < 0) {
+                    while (j < k && nums[j] == nums[j+1]) {
+                        j++;
+                    }
+                    j ++;
+                } else if (sum > 0) {
+                    while (k > j && nums[k] == nums[k-1]) {
+                        k--;
+                    }
+                    k--;
+                }
             }
-
+            while (i < nums.length - 1 && nums[i] == nums[i+1]) {
+                i++;
+            }
+            i++;
+            
         }
-        return new ArrayList<>(res);
-
+        return result;
     }
 }
