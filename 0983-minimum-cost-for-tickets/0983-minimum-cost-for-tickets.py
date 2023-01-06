@@ -5,16 +5,10 @@ class Solution:
         before = 0
         for day in days:
 
-            for i in range(before, day):
-                dp[i] = dp[before]
-                
-            ticket_7 = day - 7
-            ticket_30 = day - 30
-            if ticket_30 < 0:
-                ticket_30 = 0
-            if ticket_7 < 0:
-                ticket_7 = 0
-            dp[day] = min(costs[0] + dp[before], costs[1] + dp[ticket_7], costs[2] + dp[ticket_30])
+            for i in range(before+1, day):
+                dp[i] = dp[i-1]
+            dp[day] = min(costs[0] + dp[before], costs[1] + dp[max(0, day - 7)], costs[2] + dp[max(0, day - 30)])
+            
             before = day
         return dp[days[-1]]
              
